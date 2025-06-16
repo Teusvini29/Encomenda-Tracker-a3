@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/cliente.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" href="./imagem/favicon.ico" type="image/x-icon">
+    <title>Viagens - Rastreio de Cargas</title>
+</head>
+
+<body>
+    <header class="header">
+        <section>
+            <a href="#" class="logo">
+                <img src="./imagem/logo_atualizada-removebg-preview.png" alt="Logo da Empresa">
+            </a>
+            <nav class="barradenavegação">
+                <a href="#"><img src="./imagem/home preto 24x24.png" alt="Home"> Home</a>
+                <a href="#monitoramento"><img src="./imagem/binóculos-48.png" alt="Monitoramento"> Monitoramento</a>
+                <a href="#Historico"><img src="./imagem/relogio.png" alt="Historico"> Historico</a>
+                <a href="#notificacoes"><img src="imagem/sino.png" alt="Notificações"> Notificações</a>
+            </nav>
+            <div class="espaço"></div>
+
+            <div class="logout">
+                <a href="index.html" title="Sair">
+                    <i class="fas fa-sign-out-alt fa-lg"></i> 
+                </a>
+            </div>
+        </section>
+    </header>
+
+    <div class="home-container p-4" style="margin-top: 4%;">
+        <div class="content mx-auto" style="max-width: 600px;">
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs mb-3" id="trackingTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="track-tab" data-bs-toggle="tab" data-bs-target="#track"
+                        type="button" role="tab" aria-controls="track" aria-selected="true">
+                        Rastrear Carga
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="create-tab" data-bs-toggle="tab" data-bs-target="#create" type="button"
+                        role="tab" aria-controls="create" aria-selected="false">
+                        Criar Viagem
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content" id="trackingTabsContent">
+                <!-- Rastrear -->
+                <div class="tab-pane fade show active" id="track" role="tabpanel" aria-labelledby="track-tab">
+                    <p>Insira o código de rastreamento para acompanhar sua entrega.</p>
+                    <form class="tracking-form" onsubmit="return false;">
+                        <input type="text" id="trackingCode" class="form-control mb-2"
+                            placeholder="Digite seu código de rastreamento" required>
+                        <button id="trackingCodeBtn" type="button" class="btn btn-primary w-100">Rastrear</button>
+                    </form>
+                </div>
+
+                <!-- Criar -->
+                <div class="tab-pane fade" id="create" role="tabpanel" aria-labelledby="create-tab">
+                    <p>Preencha os dados para criar uma nova viagem.</p>
+                    <form id="createTripForm" onsubmit="return false;">
+                        <input type="hidden" id="origemLat">
+                        <input type="hidden" id="origemLng">
+                        <input type="hidden" id="destinoLat">
+                        <input type="hidden" id="destinoLng">
+                        <input type="text" id="descricaoCarga" class="form-control mb-2"
+                            placeholder="Descrição da carga" required>
+                        <input type="text" id="placaCaminhao" class="form-control mb-2" placeholder="BRA1B23"
+                            required />
+                        <input type="number" id="pesoCarga" class="form-control mb-2" placeholder="Peso da carga (kg)"
+                            step="1" required>
+                        <select id="motoristaId" class="form-control mb-2" required>
+                            <option value="">Selecione o motorista</option>
+                            <option value="1">João Silva (ID: 1)</option>
+                            <option value="2">Maria Souza (ID: 2)</option>
+                            <option value="3">Carlos Oliveira (ID: 3)</option>
+                            <option value="4">Fernanda Lima (ID: 4)</option>
+                            <option value="5">Ricardo Alves (ID: 5)</option>
+                        </select>
+                        <!-- Origem -->
+                        <div class="mb-3">
+                            <label for="cepOrigem">Endereço de Origem</label>
+                            <div class="row g-2 align-items-end">
+                                <div class="col-5">
+                                    <input type="text" id="cepOrigem" class="form-control"
+                                        placeholder="Ex: 01001-000" />
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" id="numeroOrigem" class="form-control" placeholder="Número" />
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-secondary w-100" type="button"
+                                        onclick="buscarEndereco('origem')" title="Buscar endereço">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p id="enderecoOrigem"></p>
+
+                        <!-- Destino -->
+                        <div class="mb-3">
+                            <label for="cepDestino">Endereço de Destino</label>
+                            <div class="row g-2 align-items-end">
+                                <div class="col-5">
+                                    <input type="text" id="cepDestino" class="form-control"
+                                        placeholder="Ex: 30130-010" />
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" id="numeroDestino" class="form-control" placeholder="Número" />
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-secondary w-100" type="button"
+                                        onclick="buscarEndereco('destino')" title="Buscar endereço">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p id="enderecoDestino"></p>
+
+
+                        <p id="enderecoDestino"></p>
+
+
+                        <button id="createTripBtn" type="button" class="btn btn-success w-100">Criar Viagem</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="trackingResultsModal" tabindex="-1" aria-labelledby="trackingResultsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="trackingResultsModalLabel">Detalhes da Viagem</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body" id="modalContent" style="justify-content: left; text-align: left;">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="criarViagemResultadoModal" tabindex="-1"
+        aria-labelledby="criarViagemResultadoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="criarViagemResultadoModalLabel">Criar Viagem</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body" id="modalContentCriarViagem" style="text-align: left;">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section id="menu" class="section-padded">
+
+    </section>
+
+    <section id="monitoramento" class="section-padded">
+        <h2>Monitoramento</h2>
+        <p>Onde vai ficar monitoramento</p>
+    </section>
+
+    <section id="Historico" class="section-padded">
+        <h2>Historico</h2>
+        <p>Onde vai ficar as Historico de Viagens</p>
+    </section>
+
+    <section id="notificacoes" class="section-padded">
+        <h2>Notificações</h2>
+        <p>Onde vai ficar Notificações</p>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <script src="js/rastrearViagem.js"></script>
+    <script src="js/criarViagem.js"></script>
+</body>
+
+</html>

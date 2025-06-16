@@ -1,0 +1,145 @@
+/* Seu CSS Existente */
+* {
+    margin: 0rem;
+    padding: 0;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    text-transform: capitalize;
+}
+
+body {
+    background-color: #fff;
+    margin-top: 7rem; /* Mantido para compensar o cabeçalho fixo */
+    font-family: sans-serif; /* Adicionado para uma fonte mais legível */
+}
+
+section {
+    padding: 3rem 2rem;
+    margin: 0 auto;
+    max-width: 1500px;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    border-bottom: 0.1rem solid #000;
+    height: 7rem;
+    background-color: #fff;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+    display: flex; /* Adicionado para centralizar o conteúdo do header internamente */
+    align-items: center; /* Adicionado para centralizar o conteúdo do header internamente */
+    justify-content: center; /* Adicionado para centralizar o conteúdo do header internamente */
+}
+
+.header section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    width: 100%; /* Garante que a seção ocupe a largura total dentro do header */
+    max-width: 1500px; /* Mantém a largura máxima do seu layout */
+}
+
+.logo img {
+    height: 8rem; /* Ajuste o tamanho da sua logo conforme necessário */
+    margin-right: 1rem;
+}
+
+.barradenavegação a {
+    margin-right: 1.5rem; /* Ajustei a margem para melhor espaçamento */
+    font-size: 1.2rem; /* Reduzi um pouco a fonte para mais links caberem */
+    color: #000;
+    display: inline-flex; /* Para alinhar ícone e texto */
+    align-items: center; /* Para alinhar ícone e texto verticalmente */
+    gap: 0.5rem; /* Espaçamento entre ícone e texto */
+}
+
+.barradenavegação a img {
+    height: 1.5rem; /* Tamanho dos ícones de navegação */
+    width: 1.5rem;
+}
+
+.barradenavegação a:hover {
+    color: #00A9FF;
+    border-bottom: 0.1rem solid #000;
+    padding-bottom: 0.25rem;
+    font-size: 1.3rem; /* Ajustei o tamanho do hover */
+}
+
+/* Novo CSS para o home-container e formulário */
+.home-container {
+    background: url("../imagem/fundo\ de\ tela.jpg") no-repeat center center/cover; /* Shorthand para o background */
+    height: 100vh; /* Ajustei para 80vh, já que o cabeçalho agora tem seu próprio espaço */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff; /* Cor do texto no home-container */
+    flex-direction: column; /* Para empilhar o conteúdo */
+}
+
+.home-container .content {
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente para o texto ser legível */
+    padding: 2rem;
+    border-radius: 0.5rem;
+    max-width: 600px;
+}
+
+.home-container h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase; /* Deixei o título uppercase */
+}
+
+.home-container p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.tracking-form {
+    display: flex;
+    justify-content: center;
+    gap: 1rem; /* Espaço entre o input e o botão */
+    flex-wrap: wrap; /* Para quebrar a linha em telas menores */
+}
+
+.tracking-form input[type="text"] {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ddd;
+    color: #333;
+}
+
+.tracking-form button {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    background-color: #00A9FF;
+    color: #fff;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+#trackingResultsModal {
+    margin-top: 2rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    color: #333;
+    min-height: 100px; /* Um mínimo para visualização */
+    display: none; /* Escondido por padrão, será mostrado com JS */
+}
+
+/* Estilo para as novas seções de conteúdo */
+.section-padded {
+    padding: 3rem 2rem;
+    margin: 0 auto;
+    max-width: 1500px;
+    min-height: 60vh; /* Para que você possa rolar a página */
+}
+
